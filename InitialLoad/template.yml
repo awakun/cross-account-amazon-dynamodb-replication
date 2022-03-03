@@ -77,7 +77,7 @@ Resources:
       Type: AWS::IAM::Role
       Properties:
         ManagedPolicyArns: 
-          - arn:aws:iam::aws:policy/service-role/AWSGlueServiceRole
+          - arn:${AWS::Partition}:iam::aws:policy/service-role/AWSGlueServiceRole
         AssumeRolePolicyDocument:
           Version: "2012-10-17"
           Statement:
@@ -97,7 +97,7 @@ Resources:
                 - Effect: Allow
                   Action:
                     - sts:AssumeRole
-                  Resource: !Sub "arn:aws:iam::${TargetAccountNumber}:role/${TargetRoleName}"
+                  Resource: !Sub "arn:${AWS::Partition}:iam::${TargetAccountNumber}:role/${TargetRoleName}"
           - PolicyName: "DynamoDBReadOnly"
             PolicyDocument:
               Version: "2012-10-17"
@@ -109,7 +109,7 @@ Resources:
                     - dynamodb:GetItem
                     - dynamodb:Scan
                     - dynamodb:Query
-                  Resource: !Sub "arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/${SourceDynamoDBTable}"
+                  Resource: !Sub "arn:${AWS::Partition}:dynamodb:${AWS::Region}:${AWS::AccountId}:table/${SourceDynamoDBTable}"
                 - Effect: "Allow"
                   Action:
                     - dynamodb:ListTables
@@ -124,5 +124,5 @@ Resources:
                     - s3:PutObject
                     - s3:DeleteObject
                     - s3:GetObject
-                  Resource: "arn:aws:s3:::aws-sam-cli-managed-default-samclisourcebucket-*/*"
+                  Resource: "arn:${AWS::Partition}:s3:::aws-sam-cli-managed-default-samclisourcebucket-*/*"
 
