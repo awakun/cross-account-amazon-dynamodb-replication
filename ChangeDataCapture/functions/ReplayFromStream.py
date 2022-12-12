@@ -16,6 +16,8 @@ def lambda_handler(event, context):
         aws_partition = "aws-us-gov"
     elif "cn" in target_ddb_region:
         aws_partition = "aws-cn"
+    elif target_ddb_region == "us-iso-east-1" or target_ddb_region == "us-iso-west-1":
+        aws_partition = "aws-iso"
 
     role_arn = "arn:%s:iam::%s:role/%s" % (aws_partition,target_aws_account_num,target_role_name)
 

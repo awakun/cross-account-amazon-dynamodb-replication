@@ -23,6 +23,8 @@ if "gov" in region:
     aws_partition = "aws-us-gov"
 elif "cn" in region:
     aws_partition = "aws-cn"
+elif region == "us-iso-east-1" or region == "us-iso-west-1":
+    aws_partition = "aws-iso"
 
 target_role_arn="arn:"+aws_partition+":iam::"+target_aws_account_num+":role/"+target_role_name
 
