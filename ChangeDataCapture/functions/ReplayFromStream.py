@@ -10,7 +10,16 @@ def lambda_handler(event, context):
     target_ddb_name = os.environ['TARGET_DYNAMODB_NAME']
     target_ddb_region = os.environ['TARGET_REGION']
 
-    role_arn = "arn:aws:iam::%s:role/%s" % (target_aws_account_num,target_role_name)
+    # Set aws partition based on target region
+    aws_partition = "aws"
+    if "gov" in target_ddb_region:
+        aws_partition = "aws-us-gov"
+    elif "cn" in target_ddb_region:
+        aws_partition = "aws-cn"
+    elif target_ddb_region == "us-iso-east-1" or target_ddb_region == "us-iso-west-1":
+        aws_partition = "aws-iso"
+
+    role_arn = "arn:%s:iam::%s:role/%s" % (aws_partition,target_aws_account_num,target_role_name)
 
     sts_response = get_credentials(role_arn)
     

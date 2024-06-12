@@ -56,7 +56,7 @@ Resources:
                 - Effect: Allow
                   Action:
                     - sts:AssumeRole
-                  Resource: !Sub "arn:aws:iam::${TargetAccountNumber}:role/${TargetRoleName}"
+                  Resource: !Sub "arn:${AWS::Partition}:iam::${TargetAccountNumber}:role/${TargetRoleName}"
                 - Effect: Allow
                   Action:
                     - logs:CreateLogGroup

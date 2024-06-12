@@ -17,7 +17,16 @@ source_ddb_name = args['SOURCE_DYNAMODB_NAME']
 worker_type = args['WORKER_TYPE']
 num_workers = args['NUM_WORKERS']
 
-target_role_arn="arn:aws:iam::"+target_aws_account_num+":role/"+target_role_name
+# Set aws partition based on target region
+aws_partition = "aws"
+if "gov" in region:
+    aws_partition = "aws-us-gov"
+elif "cn" in region:
+    aws_partition = "aws-cn"
+elif region == "us-iso-east-1" or region == "us-iso-west-1":
+    aws_partition = "aws-iso"
+
+target_role_arn="arn:"+aws_partition+":iam::"+target_aws_account_num+":role/"+target_role_name
 
 if worker_type == 'G.2X':
     ddb_split= 16* (int(num_workers) - 1)
